@@ -34,7 +34,7 @@ def parser(text: str) -> list[dict]:
 
       # Construct the term string as per example: "“Bias” (accelerometer)"
       term_p1 = first_line_match.group('term_part1').strip()
-      term_str = f'“{term_p1}”' # Start with the quoted part
+      term_str = f'{term_p1}' # Start with the quoted part
       
       term_p2_val = first_line_match.group('term_part2')
       if term_p2_val: # If the optional parenthesized part exists, append it

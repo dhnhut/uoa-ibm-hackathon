@@ -13,18 +13,18 @@ def parser(text: str) -> list[dict]:
   lines = text.strip().splitlines() #.strip() on text to remove leading/trailing blank lines overall
 
   for line in lines:
-      stripped_line = line.strip()
+      line = line.strip()  # Strip leading and trailing whitespace
       
-      if id_pattern.match(stripped_line):
+      if id_pattern.match(line):
           # This line is an item ID line
           if current_id is not None:
               # Save the previous item
               parsed_items.append({
                   "id": current_id,
-                  "description": "\n".join(current_description_lines)
+                  "description": "".join(current_description_lines)
               })
           
-          current_id = stripped_line
+          current_id = line
           current_description_lines = []
       elif current_id is not None:
           # This line is part of the description for the current_id
@@ -34,6 +34,6 @@ def parser(text: str) -> list[dict]:
   if current_id is not None:
       parsed_items.append({
           "id": current_id,
-          "description": "\n".join(current_description_lines)
+          "description": "".join(current_description_lines)
       })
   return parsed_items
