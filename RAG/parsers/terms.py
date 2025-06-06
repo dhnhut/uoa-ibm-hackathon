@@ -1,6 +1,6 @@
 import re
 
-def parser(text: str) -> list[dict]:
+def to_json(text: str) -> list[dict]:
   text = text[286:]
   # Regex to split the text into blocks.
   # A block starts with: “Quoted Term” [optional (sub-term)] (Categories)
@@ -34,7 +34,7 @@ def parser(text: str) -> list[dict]:
 
       # Construct the term string as per example: "“Bias” (accelerometer)"
       term_p1 = first_line_match.group('term_part1').strip()
-      term_str = f'{term_p1}' # Start with the quoted part
+      term_str = f'“{term_p1}”' # Start with the quoted part
       
       term_p2_val = first_line_match.group('term_part2')
       if term_p2_val: # If the optional parenthesized part exists, append it
@@ -65,3 +65,15 @@ def parser(text: str) -> list[dict]:
       })
       
   return extracted_data
+
+def to_txt(data: list[dict]) -> str:
+    # print(data)
+    lines = []
+    for item in data:
+        print(item)
+        term = item['term']
+        categories = " ".join(item['categories'])
+        definition = item['definition']
+        lines.append(f"{term}: {definition} (In Categories: {categories})")
+    
+    return "\n".join(lines)

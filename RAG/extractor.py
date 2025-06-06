@@ -28,19 +28,19 @@ def write_text_to_file(text, file_path):
 parts = [
   {
     "name": "terms",
-    "parser": terms.parser,
+    "parser": terms,
     "file": "_1_terms_14_32",
     "pages": [13, 31]
   },
   {
     "name": "acronyms_and_abbreviations",
-    "parser": acronyms_and_abbreviations.parser,
+    "parser": acronyms_and_abbreviations,
     "file": "_2_acronyms_and_abbreviations_33_36",
     "pages": [32, 35]
   },
   {
     "name": "category_9",
-    "parser": category_9.parser,
+    "parser": category_9,
     "file": "_3_category_9_aerospace_and_propulsion_286_308",
     "pages": [285, 307]
   },
@@ -70,9 +70,14 @@ def extract_data():
         part_doc.insert_pdf(doc, from_page=part['pages'][0], to_page=part['pages'][1])
         part_doc.save(pdf_path)
 
-      text = extract_text_from_pdf(pdf_path)
-      write_text_to_file(text, f'{file_path}.txt')
-      json_text = json.dumps(part['parser'](text), indent=2, ensure_ascii=False)
+      raw_text = extract_text_from_pdf(pdf_path)
+      write_text_to_file(raw_text, f'{file_path}.raw.txt')
+      
+      parsed_json = part['parser'].to_json(raw_text)
+      json_text = json.dumps(parsed_json, indent=2, ensure_ascii=False)
       write_text_to_file(json_text, f'{file_path}.json')
+      
+      parsed_txt = part['parser'].to_txt(parsed_json)
+      write_text_to_file(parsed_txt, f'{file_path}.txt')
 
 extract_data()

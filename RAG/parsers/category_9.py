@@ -1,6 +1,6 @@
 import re
 
-def parser(text: str) -> list[dict]:
+def to_json(text: str) -> list[dict]:
   text= text[44:]  # Remove the first three characters (e.g., "9A ")
   parsed_items = []
   current_id = None
@@ -37,3 +37,11 @@ def parser(text: str) -> list[dict]:
           "description": "".join(current_description_lines)
       })
   return parsed_items
+
+def to_txt(data: list[dict]) -> str:
+    lines = []
+    for item in data:
+        # Join the description lines with a space, ensuring no leading/trailing spaces
+        description = " ".join(item["description"].strip().split())
+        lines.append(f"{item['id']}: {description}")
+    return "\n".join(lines)

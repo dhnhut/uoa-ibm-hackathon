@@ -1,4 +1,4 @@
-def parser(text: str) -> list[dict]:
+def to_json(text: str) -> list[dict]:
     text = text[179:]
     # Split the input text into lines and strip leading/trailing whitespace from each
     lines = [line.strip() for line in text.split('\n')]
@@ -38,3 +38,11 @@ def parser(text: str) -> list[dict]:
             index += 1 # Move past this last line
             
     return parsed_data
+
+def to_txt(data: list[dict]) -> str:
+    lines = []
+    for item in data:
+        acronym = item['acronym']
+        meaning = item['meaning']
+        lines.append(f"{acronym}: {meaning}")
+    return "\n".join(lines)
