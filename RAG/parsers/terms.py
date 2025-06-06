@@ -67,10 +67,8 @@ def to_json(text: str) -> list[dict]:
   return extracted_data
 
 def to_txt(data: list[dict]) -> str:
-    # print(data)
     lines = []
     for item in data:
-        print(item)
         term = item['term']
         categories = " ".join(item['categories'])
         definition = item['definition']
